@@ -1,5 +1,5 @@
 <template>
-  <h1>This is the Home page</h1>
+  <h1>This is the Feed page</h1>
 </template>
 
 <script>
