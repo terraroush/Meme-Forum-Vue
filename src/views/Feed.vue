@@ -1,9 +1,39 @@
 <template>
-  <h1>This is the Feed page</h1>
+  <v-container>
+    <div v-for="meme in memes" :key="meme.id" class="py-5">
+      <meme
+        class="mx-auto"
+        :top="meme.topText"
+        :bottom="meme.bottomText"
+        :imageURL="meme.imageURL"
+      />
+    </div>
+  </v-container>
 </template>
 
 <script>
-export default {};
+import { db } from "../firebase";
+import Meme from "../components/Meme";
+
+export default {
+  components: { Meme },
+  data() {
+    return {
+      memes: [],
+    };
+  },
+  mounted() {
+    db.collection("memes").onSnapshot((snap) => {
+      const memes = snap.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      this.memes = memes;
+    });
+  },
+};
 </script>
 
 <style></style>
