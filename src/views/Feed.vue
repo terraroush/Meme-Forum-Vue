@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <div v-for="meme in memes" :key="meme.id" class="py-5">
+    <form @submit.prevent="addSearch">
+      <input type="text" placeholder="Search..." v-model="inputVal" />
+    </form>
+    <div v-for="meme in displayedMemes" :key="meme.id" class="py-5">
       <router-link :to="`/meme/${meme.id}`">
         <meme
           class="mx-auto"
@@ -22,7 +25,15 @@ export default {
   data() {
     return {
       memes: [],
+      inputVal: "",
+      searchTerm: "",
     };
+  },
+  methods: {
+    addSearch() {
+      this.searchTerm = this.inputVal;
+      console.log(this.searchTerm);
+    },
   },
   mounted() {
     db.collection("memes").onSnapshot((snap) => {
@@ -34,6 +45,15 @@ export default {
       });
       this.memes = memes;
     });
+  },
+  computed: {
+    displayedMemes() {
+      if (!this.searchTerm) return this.memes;
+
+      return this.memes.filter((meme) => {
+        return meme.normalized.includes(this.searchTerm.toUpperCase());
+      });
+    },
   },
 };
 </script>
