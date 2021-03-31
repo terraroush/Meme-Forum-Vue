@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="green" dark>
+    <v-app-bar app color="teal darken-4" dark>
       <h1>Vue Meme Forum</h1>
       <v-spacer></v-spacer>
       <router-link to="/create">
