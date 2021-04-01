@@ -14,7 +14,7 @@
         <div class="text-center">
           <img
             src="https://bellette.com.au/uploads/images/_1250xAUTO_crop_center-center/Viral-Facebook-Memes.jpg"
-            alt=""
+            alt="pimp my ride style meme"
           />
         </div>
       </div>

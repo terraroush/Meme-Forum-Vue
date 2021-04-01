@@ -36,7 +36,7 @@ const routes = [
     component: MyMemes,
     beforeEnter: (to, from, next) => {
       if (!auth.currentUser) {
-        return next("/?unauthorized=true");
+        return next(`/?unauthorized=true&redirect=${to.fullPath}`);
       } else {
         return next();
       }

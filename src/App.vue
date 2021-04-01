@@ -46,8 +46,12 @@ export default {
   },
 
   methods: {
-    signIn() {
-      signIn();
+    async signIn() {
+      await signIn();
+
+      if (this.$route.query.redirect) {
+        this.$router.push(this.$route.query.redirect);
+      }
     },
     signOut() {
       signOut();
