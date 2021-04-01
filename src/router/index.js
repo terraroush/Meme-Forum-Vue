@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Create from "../views/Create.vue";
 import Details from "../views/Details.vue";
 import Feed from "../views/Feed.vue";
+import MyMemes from "../views/MyMemes.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/feed",
     name: "Feed",
     component: Feed,
+  },
+  {
+    path: "/my-memes",
+    name: "MyMemes",
+    component: MyMemes,
   },
 ];
 

@@ -15,6 +15,11 @@
         <v-btn text>Memes</v-btn>
       </router-link>
       |
+      <router-link v-if="user" to="/my-memes">
+        <v-btn text> My Memes </v-btn>
+      </router-link>
+      <span v-if="user">|</span>
+
       <v-btn v-if="!user" text @click="signIn"> Sign In </v-btn>
       <v-btn v-else text @click="signOut"> Sign Out </v-btn>
     </v-app-bar>
