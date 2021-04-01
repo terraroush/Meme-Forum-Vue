@@ -1,7 +1,11 @@
 <template>
-  <v-app>
-    <v-app-bar app color="teal darken-4" dark>
-      <h1>Vue Meme Forum</h1>
+  <v-app class="">
+    <v-app-bar prominent shrink-on-scroll app color="teal darken-4" dark>
+      <div>
+        <h1 class="text-uppercase">Meme Party</h1>
+        <p class="text-uppercase">Welcome {{ firstName }}!</p>
+      </div>
+
       <v-spacer></v-spacer>
       <router-link to="/create">
         <v-btn text>Create</v-btn>
@@ -47,6 +51,12 @@ export default {
       }
     },
   },
+  computed: {
+    firstName() {
+      if (!this.user) return "";
+      return this.user.displayName.split(" ")[0];
+    },
+  },
 };
 </script>
 <style scoped>
@@ -56,4 +66,7 @@ a {
 .router-link-active .v-btn {
   color: goldenrod;
 }
+/* p {
+  align-self: flex-start;
+} */
 </style>
