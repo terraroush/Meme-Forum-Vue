@@ -3,7 +3,7 @@
     <v-app-bar prominent shrink-on-scroll app color="teal darken-4" dark>
       <div>
         <h1 class="text-uppercase">Meme Party</h1>
-        <p class="text-uppercase">Welcome {{ firstName }}!</p>
+        <p v-if="user" class="text-uppercase">Welcome {{ firstName }}!</p>
       </div>
 
       <v-spacer></v-spacer>
