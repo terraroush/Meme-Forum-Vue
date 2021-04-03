@@ -5,12 +5,12 @@
         <h1 class="text-uppercase">Meme Party</h1>
         <p v-if="user" class="text-uppercase">Welcome {{ firstName }}!</p>
       </div>
-
       <v-spacer></v-spacer>
-      <router-link to="/create">
+      <router-link v-if="user" to="/create">
         <v-btn text>Create</v-btn>
       </router-link>
-      |
+      <span v-if="user">|</span>
+
       <router-link to="/feed">
         <v-btn text>Memes</v-btn>
       </router-link>
@@ -20,7 +20,8 @@
       </router-link>
       <span v-if="user">|</span>
 
-      <v-btn v-if="!user" text @click="signIn"> Sign In </v-btn>
+
+      <v-btn justify="center" v-if="!user" text @click="signIn"> Sign In </v-btn>
       <v-btn v-else text @click="signOut"> Sign Out </v-btn>
     </v-app-bar>
 

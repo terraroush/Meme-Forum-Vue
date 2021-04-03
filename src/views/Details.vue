@@ -6,6 +6,9 @@
       :bottom="meme.bottomText"
       :imageURL="meme.imageURL"
     />
+    <div v-if="meme.memeAuthor" class="text-center">
+      credit: {{ meme.memeAuthor }}
+    </div>
   </div>
 </template>
 

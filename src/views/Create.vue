@@ -74,6 +74,7 @@ export default {
         imageURL: this.imageURL,
         normalized: `${this.topText.toUpperCase()} ${this.bottomText.toUpperCase()}`,
         userId: auth.currentUser.uid,
+        memeAuthor: auth.currentUser.displayName,
       });
 
       this.$router.push("/feed");
