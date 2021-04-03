@@ -28,38 +28,39 @@
           Welcome {{ firstName }}!
         </p>
       </div>
-      <v-spacer></v-spacer>
-
-      <router-link v-if="user" to="/create">
-        <v-btn text>Create</v-btn>
-      </router-link>
-      <span v-if="user">|</span>
-
-      <router-link to="/feed">
-        <v-btn text>Memes</v-btn>
-      </router-link>
-      |
-      <router-link v-if="user" to="/my-memes">
-        <v-btn text> My Memes </v-btn>
-      </router-link>
-      <span v-if="user">|</span>
-
-      <v-btn justify="center" v-if="!user" text @click="signIn">
-        Sign In
-      </v-btn>
-      <v-btn v-else text @click="signOut"> Sign Out </v-btn>
     </v-app-bar>
 
     <v-main>
       <router-view></router-view>
+
+      <Slide right :closeOnNavigation="true">
+        <router-link v-if="user" to="/create">
+          <v-btn text>Create</v-btn>
+        </router-link>
+
+        <router-link to="/feed">
+          <v-btn text>Memes</v-btn>
+        </router-link>
+
+        <router-link v-if="user" to="/my-memes">
+          <v-btn text> My Memes </v-btn>
+        </router-link>
+
+        <v-btn justify="center" v-if="!user" text @click="signIn">
+          Sign In
+        </v-btn>
+        <v-btn v-else text @click="signOut"> Sign Out </v-btn>
+      </Slide>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import { signIn, signOut, auth } from "./firebase";
+import { Slide } from "vue-burger-menu";
 
 export default {
+  components: { Slide },
   data() {
     return {
       user: auth.currentUser,
@@ -114,7 +115,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 a {
   text-decoration: none;
 }
@@ -127,5 +128,12 @@ a {
 }
 .welcome.welcome--hidden {
   transform: translate3d(0, -50%, 0);
+}
+.bm-burger-button {
+  top: -100px;
+  z-index: 800;
+}
+.bm-burger-bars {
+  background-color: white;
 }
 </style>
