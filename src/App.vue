@@ -2,27 +2,51 @@
   <v-app class="">
     <v-app-bar prominent shrink-on-scroll app color="teal darken-4" dark>
       <div>
-        <h1 class="text-uppercase">Meme Party</h1>
-        <p v-if="user" class="text-uppercase">Welcome {{ firstName }}!</p>
+        <h1
+          v-resize-text="{
+            ratio: 1.3,
+            minFontSize: '30px',
+            maxFontSize: '100px',
+            delay: 100,
+          }"
+          class="text-uppercase text-no-wrap"
+        >
+          <router-link class="white--text" to="/">Meme Party</router-link>
+        </h1>
+        <p
+          v-if="user"
+          v-resize-text="{
+            ratio: 1.2,
+            minFontSize: '15px',
+            maxFontSize: '40px',
+            delay: 100,
+          }"
+          class="text-uppercase text-no-wrap"
+        >
+          Welcome {{ firstName }}!
+        </p>
       </div>
       <v-spacer></v-spacer>
-      <router-link v-if="user" to="/create">
-        <v-btn text>Create</v-btn>
-      </router-link>
-      <span v-if="user">|</span>
+      <div>
+        <router-link v-if="user" to="/create">
+          <v-btn text>Create</v-btn>
+        </router-link>
+        <span v-if="user">|</span>
 
-      <router-link to="/feed">
-        <v-btn text>Memes</v-btn>
-      </router-link>
-      |
-      <router-link v-if="user" to="/my-memes">
-        <v-btn text> My Memes </v-btn>
-      </router-link>
-      <span v-if="user">|</span>
+        <router-link to="/feed">
+          <v-btn text>Memes</v-btn>
+        </router-link>
+        |
+        <router-link v-if="user" to="/my-memes">
+          <v-btn text> My Memes </v-btn>
+        </router-link>
+        <span v-if="user">|</span>
 
-
-      <v-btn justify="center" v-if="!user" text @click="signIn"> Sign In </v-btn>
-      <v-btn v-else text @click="signOut"> Sign Out </v-btn>
+        <v-btn justify="center" v-if="!user" text @click="signIn">
+          Sign In
+        </v-btn>
+        <v-btn v-else text @click="signOut"> Sign Out </v-btn>
+      </div>
     </v-app-bar>
 
     <v-main>
@@ -76,7 +100,4 @@ a {
 .router-link-active .v-btn {
   color: goldenrod;
 }
-/* p {
-  align-self: flex-start;
-} */
 </style>
