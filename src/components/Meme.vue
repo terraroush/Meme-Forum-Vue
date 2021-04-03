@@ -1,7 +1,27 @@
 <template>
   <v-img :src="imageURL" :width="800">
-    <h1 id="top">{{ top.toUpperCase() }}</h1>
-    <h1 id="bottom">{{ bottom.toUpperCase() }}</h1>
+    <h1
+      v-resize-text="{
+        ratio: 1.3,
+        minFontSize: '30px',
+        maxFontSize: '100px',
+        delay: 100,
+      }"
+      id="top"
+    >
+      {{ top.toUpperCase() }}
+    </h1>
+    <h1
+      v-resize-text="{
+        ratio: 1.3,
+        minFontSize: '30px',
+        maxFontSize: '100px',
+        delay: 100,
+      }"
+      id="bottom"
+    >
+      {{ bottom.toUpperCase() }}
+    </h1>
   </v-img>
 </template>
 
@@ -15,7 +35,7 @@ export default {
 h1 {
   color: white;
   text-align: center;
-  font-size: 3rem;
+  /* font-size: 3rem; */
   font-family: impact, sans-serif;
   font-weight: bold;
   text-shadow: 0 0 10px black;
