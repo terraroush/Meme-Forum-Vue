@@ -13,6 +13,7 @@
         >
           <router-link class="white--text" to="/">Meme Party</router-link>
         </h1>
+
         <p
           v-if="user"
           v-resize-text="{
@@ -21,32 +22,32 @@
             maxFontSize: '40px',
             delay: 100,
           }"
-          class="text-uppercase text-no-wrap"
+          class="text-uppercase text-no-wrap welcome"
+          :class="{ 'welcome--hidden': !showWelcome }"
         >
           Welcome {{ firstName }}!
         </p>
       </div>
       <v-spacer></v-spacer>
-      <div>
-        <router-link v-if="user" to="/create">
-          <v-btn text>Create</v-btn>
-        </router-link>
-        <span v-if="user">|</span>
 
-        <router-link to="/feed">
-          <v-btn text>Memes</v-btn>
-        </router-link>
-        |
-        <router-link v-if="user" to="/my-memes">
-          <v-btn text> My Memes </v-btn>
-        </router-link>
-        <span v-if="user">|</span>
+      <router-link v-if="user" to="/create">
+        <v-btn text>Create</v-btn>
+      </router-link>
+      <span v-if="user">|</span>
 
-        <v-btn justify="center" v-if="!user" text @click="signIn">
-          Sign In
-        </v-btn>
-        <v-btn v-else text @click="signOut"> Sign Out </v-btn>
-      </div>
+      <router-link to="/feed">
+        <v-btn text>Memes</v-btn>
+      </router-link>
+      |
+      <router-link v-if="user" to="/my-memes">
+        <v-btn text> My Memes </v-btn>
+      </router-link>
+      <span v-if="user">|</span>
+
+      <v-btn justify="center" v-if="!user" text @click="signIn">
+        Sign In
+      </v-btn>
+      <v-btn v-else text @click="signOut"> Sign Out </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -62,14 +63,20 @@ export default {
   data() {
     return {
       user: auth.currentUser,
+      showWelcome: true,
+      lastScrollPosition: 0,
     };
   },
   mounted() {
     auth.onAuthStateChanged((user) => {
       this.user = user;
+      window.addEventListener("scroll", this.onScroll);
     });
   },
 
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
+  },
   methods: {
     async signIn() {
       await signIn();
@@ -83,6 +90,20 @@ export default {
       if (this.$route.path !== "/") {
         this.$router.push("/");
       }
+    },
+    onScroll() {
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollPosition < 0) {
+        return;
+      }
+      // Stop executing this function if the difference between
+      // current scroll position and last scroll position is less than some offset
+      if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+        return;
+      }
+      this.showWelcome = currentScrollPosition < this.lastScrollPosition;
+      this.lastScrollPosition = currentScrollPosition;
     },
   },
   computed: {
@@ -99,5 +120,12 @@ a {
 }
 .router-link-active .v-btn {
   color: goldenrod;
+}
+.welcome {
+  transform: translate3d(0, 0, 0);
+  transition: 0.1s all ease-out;
+}
+.welcome.welcome--hidden {
+  transform: translate3d(0, -50%, 0);
 }
 </style>
