@@ -1,10 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Create from "../views/Create.vue";
 import Details from "../views/Details.vue";
 import Feed from "../views/Feed.vue";
-import MyMemes from "../views/MyMemes.vue";
 import { auth } from "../firebase";
 
 Vue.use(VueRouter);
@@ -18,7 +16,18 @@ const routes = [
   {
     path: "/create",
     name: "Create",
-    component: Create,
+    component: () =>
+      import(/* webpackChunkName: "userPages" */ "../views/Create"),
+    beforeEnter: (to, from, next) => {
+      if (!auth.currentUser) {
+        return next({
+          path: "/",
+          query: { unauthorized: true },
+        });
+      } else {
+        return next();
+      }
+    },
   },
   {
     path: "/meme/:memeId",
@@ -33,7 +42,8 @@ const routes = [
   {
     path: "/my-memes",
     name: "MyMemes",
-    component: MyMemes,
+    component: () =>
+      import(/* webpackChunkName: "userPages" */ "../views/MyMemes"),
     beforeEnter: (to, from, next) => {
       if (!auth.currentUser) {
         return next(`/?unauthorized=true&redirect=${to.fullPath}`);
