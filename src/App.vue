@@ -130,10 +130,10 @@ a {
   transform: translate3d(0, -50%, 0);
 }
 .bm-burger-button {
-  top: -100px;
+  top: -100px !important;
   z-index: 800;
 }
 .bm-burger-bars {
-  background-color: white;
+  background-color: white !important;
 }
 </style>
