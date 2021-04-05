@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form @submit.prevent="generateMeme">
+    <v-form >
       <v-row justify="space-between">
         <v-col>
           <v-text-field
@@ -27,14 +27,14 @@
           />
         </v-col>
       </v-row>
-      <v-row v-if="!showMeme" justify="center">
+      <!-- <v-row justify="center">
         <v-btn :disabled="!imageURL" text color="primary" type="submit">
-          Generate meme!
+          Save this updated meme
         </v-btn>
-      </v-row>
+      </v-row> -->
     </v-form>
 
-    <div v-if="showMeme">
+    <div>
       <meme
         class="mx-auto"
         :top="topText"
@@ -43,7 +43,9 @@
         :width="800"
       />
       <div class="text-center mt-3">
-        <v-btn class="type button" @click="saveMeme">Save this meme</v-btn>
+        <v-btn class="type button" @click="updateMeme"
+          >Save this updated meme</v-btn
+        >
       </div>
     </div>
   </v-container>
@@ -56,35 +58,36 @@ import { db, auth } from "../firebase";
 // when it mounts(?) grab memeID from route param
 // get meme from db
 // fill out form with that meme's data
-// add edit and delete button
 
 export default {
   components: { Meme },
   data() {
     return {
-      imageURL: "",
-      topText: "",
-      bottomText: "",
-      showMeme: false,
+      meme: null,
     };
   },
+  async mounted() {
+    const memeId = this.$route.params.memeId;
+    const snapshot = await db.collection("memes").doc(memeId).get();
+    this.meme = snapshot.data();
+  },
   methods: {
-    generateMeme() {
-      this.showMeme = true;
-    },
-    async saveMeme() {
-      await db.collection("memes").add({
-        topText: this.topText,
-        bottomText: this.bottomText,
-        imageURL: this.imageURL,
-        normalized: `${this.topText.toUpperCase()} ${this.bottomText.toUpperCase()}`,
-        userId: auth.currentUser.uid,
-        memeAuthor: auth.currentUser.displayName,
-      });
+    async updateMeme() {
+      const memeId = this.$route.params.memeId;
+      await db
+        .collection("memes")
+        .doc(memeId)
+        .update({
+          topText: this.topText,
+          bottomText: this.bottomText,
+          imageURL: this.imageURL,
+          normalized: `${this.topText.toUpperCase()} ${this.bottomText.toUpperCase()}`,
+          userId: auth.currentUser.uid,
+          memeAuthor: auth.currentUser.displayName,
+        });
 
       this.$router.push("/feed");
     },
-  
   },
 };
 </script>
