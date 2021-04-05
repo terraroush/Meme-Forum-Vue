@@ -35,6 +35,12 @@ const routes = [
     component: Details,
   },
   {
+    path: "/edit/:memeId",
+    name: "Edit",
+    component: () =>
+      import(/* webpackChunkName: "userPages" */ "../views/Edit"),
+  },
+  {
     path: "/feed",
     name: "Feed",
     component: Feed,

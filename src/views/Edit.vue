@@ -53,6 +53,11 @@
 import Meme from "../components/Meme.vue";
 import { db, auth } from "../firebase";
 
+// when it mounts(?) grab memeID from route param
+// get meme from db
+// fill out form with that meme's data
+// add edit and delete button
+
 export default {
   components: { Meme },
   data() {

@@ -6,6 +6,10 @@
       :bottom="meme.bottomText"
       :imageURL="meme.imageURL"
     />
+    <div v-if="myMeme">
+      <v-btn @click="editMeme">Edit</v-btn>
+      <v-btn @click="deleteMeme">Delete</v-btn>
+    </div>
     <div v-if="meme.memeAuthor" class="text-center">
       credit: {{ meme.memeAuthor }}
     </div>
@@ -14,19 +18,39 @@
 
 <script>
 import Meme from "../components/Meme.vue";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 
 export default {
   components: { Meme },
   data() {
     return {
       meme: null,
+      myMeme: false,
     };
   },
   async mounted() {
     const memeId = this.$route.params.memeId;
     const snapshot = await db.collection("memes").doc(memeId).get();
     this.meme = snapshot.data();
+
+    const userId = auth.currentUser.uid;
+    if (userId === this.meme.userId) {
+      this.myMeme = true;
+    }
+  },
+  methods: {
+    async deleteMeme() {
+      const memeId = this.$route.params.memeId;
+      await db.collection("memes").doc(memeId).delete();
+
+      this.$router.push("/feed");
+    },
+
+    editMeme() {
+      const memeId = this.$route.params.memeId;
+      // push to edit component
+      this.$router.push(`/edit/${memeId}`);
+    }
   },
 };
 </script>
