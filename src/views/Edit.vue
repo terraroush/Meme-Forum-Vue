@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-form >
+    <v-form v-if="meme">
       <v-row justify="space-between">
         <v-col>
           <v-text-field
             outlined
-            v-model="imageURL"
+            v-model="meme.imageURL"
             type="text"
             label="Image URL"
           />
@@ -13,7 +13,7 @@
         <v-col>
           <v-text-field
             outlined
-            v-model="topText"
+            v-model="meme.topText"
             type="text"
             label="Top Text"
           />
@@ -21,7 +21,7 @@
         <v-col>
           <v-text-field
             outlined
-            v-model="bottomText"
+            v-model="meme.bottomText"
             type="text"
             label="Bottom Text"
           />
@@ -37,9 +37,9 @@
     <div>
       <meme
         class="mx-auto"
-        :top="topText"
-        :bottom="bottomText"
-        :imageURL="imageURL"
+        :top="meme.topText"
+        :bottom="meme.bottomText"
+        :imageURL="meme.imageURL"
         :width="800"
       />
       <div class="text-center mt-3">
@@ -54,10 +54,6 @@
 <script>
 import Meme from "../components/Meme.vue";
 import { db, auth } from "../firebase";
-
-// when it mounts(?) grab memeID from route param
-// get meme from db
-// fill out form with that meme's data
 
 export default {
   components: { Meme },
@@ -78,10 +74,10 @@ export default {
         .collection("memes")
         .doc(memeId)
         .update({
-          topText: this.topText,
-          bottomText: this.bottomText,
-          imageURL: this.imageURL,
-          normalized: `${this.topText.toUpperCase()} ${this.bottomText.toUpperCase()}`,
+          topText: this.meme.topText,
+          bottomText: this.meme.bottomText,
+          imageURL: this.meme.imageURL,
+          normalized: `${this.meme.topText.toUpperCase()} ${this.meme.bottomText.toUpperCase()}`,
           userId: auth.currentUser.uid,
           memeAuthor: auth.currentUser.displayName,
         });
