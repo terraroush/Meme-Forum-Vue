@@ -6,7 +6,7 @@
       :bottom="meme.bottomText"
       :imageURL="meme.imageURL"
     />
-    <div v-if="myMeme">
+    <div v-if="myMeme" class="text-center">
       <v-btn @click="sendToEdit">Edit</v-btn>
       <v-btn @click="deleteMeme">Delete</v-btn>
     </div>
@@ -50,7 +50,7 @@ export default {
       const memeId = this.$route.params.memeId;
       // push to edit component
       this.$router.push(`/edit/${memeId}`);
-    }
+    },
   },
 };
 </script>

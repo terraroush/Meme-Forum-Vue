@@ -82,7 +82,7 @@ export default {
           memeAuthor: auth.currentUser.displayName,
         });
 
-      this.$router.push("/feed");
+      this.$router.push(`/meme/${memeId}`);
     },
   },
 };
